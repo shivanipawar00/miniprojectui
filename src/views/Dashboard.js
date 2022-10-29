@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect }  from "react";
 import ChartistGraph from "react-chartist";
 // react-bootstrap components
 import {
@@ -15,8 +15,36 @@ import {
   OverlayTrigger,
   Tooltip,
 } from "react-bootstrap";
+import { CardFooter } from "reactstrap";
 
 function Dashboard() {
+  const [data, setdata] = useState({
+        name: "",
+        age: 0,
+        date: "",
+        programming: "",
+    });
+  
+    // Using useEffect for single rendering
+    useEffect(() => {
+        // Using fetch to fetch the api from 
+        // flask server it will be redirected to proxy
+        fetch('http://localhost:5000/data')
+          .then((res) =>
+        
+            res.json()).then((data) => {
+                
+                // Setting a data from api
+                setdata({
+                    name: data.Name,
+                    age: data.Age,
+                    date: data.Date,
+                    programming: data.programming,
+                });
+            });
+      
+    }, []);
+
   return (
     <>
       <Container fluid>
@@ -32,7 +60,7 @@ function Dashboard() {
                   </Col>
                   <Col xs="7">
                     <div className="numbers">
-                      <p className="card-category">Number</p>
+                      <p className="card-category">Number1</p>
                       <Card.Title as="h4">150GB</Card.Title>
                     </div>
                   </Col>
@@ -632,6 +660,24 @@ function Dashboard() {
             </Card>
           </Col>
         </Row>
+        <Row>
+          <Col md="8">
+            <Card>
+              <Card.Header>
+                <Card.Title as="h4">Data</Card.Title>
+                <p className="card-category">24 Hours performance</p>
+              </Card.Header>
+              <Card.Body>
+                HEy this is the data
+                <p>{data.name}</p>
+                <p>{data.age}</p>
+                <p>{data.date}</p>
+                <p>{data.programming}</p></Card.Body>
+              <CardFooter>
+              </CardFooter>
+              </Card>
+              </Col>
+              </Row>
       </Container>
     </>
   );
