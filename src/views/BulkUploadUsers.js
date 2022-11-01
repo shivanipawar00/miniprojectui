@@ -51,7 +51,7 @@ function StyledDropzone(props) {
     isFocused,
     isDragAccept,
     isDragReject
-  } = useDropzone({accept: {'image/*': []}});
+  } = useDropzone({accept: {'text/html': ['.csv']}});
 
   const style = useMemo(() => ({
     ...baseStyle,
@@ -73,21 +73,18 @@ function StyledDropzone(props) {
   function handleSubmit(event) {
       
     event.preventDefault();
+    const data = new FormData();
+    data.append('file', acceptedFiles[0]);
+    data.append('filename', acceptedFiles[0].name);
 
-  const data = new FormData();
-  data.append('file', acceptedFiles[0]);
-  data.append('filename', acceptedFiles[0].name);
-
-  fetch('http://localhost:5000/uploadFile', {
-    method: 'POST',
-    body: data,
-  }).then((response) => {
-      response.json().then((body) => {
-          console.log(body);
-    });
+    fetch('http://127.0.0.1:5000/addmultipleusers/', {
+      method: 'POST',
+      body: data,
+    }).then((response) => {console.log(response);});
   
-  });
   }
+
+  
   return (
     <>
     <Container fluid>
@@ -98,7 +95,7 @@ function StyledDropzone(props) {
                         <Card.Title as="h4">Add CSV of Users</Card.Title>
                     </Card.Header>
                     <Card.Body>
-                        <form onSubmit={handleSubmit}>
+                    <Form onSubmit={handleSubmit}>
                             <Row>
                                 <Col md="12">
                                     
@@ -119,11 +116,11 @@ function StyledDropzone(props) {
                             <Row>
                                 <Col md="12">
                                     <div className="btn-fill pull-right" type="submit" variant="info">
-                                        <button type='button' class="btn">Upload a file</button>
+                                        <button type='submit' class="btn">Upload a file</button>
                                     </div>
                                 </Col>
                             </Row>
-                        </form>
+                        </Form>
                             
                 
                     </Card.Body>

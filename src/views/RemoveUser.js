@@ -17,13 +17,13 @@ import {
 import { CardFooter } from "reactstrap";
 function RemoveUser()
 {
-    const [loginID, setloginID] = useState("");
+    const [loginId, setloginId] = useState("");
 
     function handleChange(event)
     {
       event.preventDefault();
       let value = event.target.value;
-      setloginID(value);
+      setloginId(value);
     }
 
     function handleSubmit(event)
@@ -31,7 +31,7 @@ function RemoveUser()
       event.preventDefault();
       fetch( 
         "http://127.0.0.1:5000/employees/",
-        {method: 'DELETE',body: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=UTF-8"}})
+        {method: 'DELETE',body: JSON.stringify({"loginId" : loginId}), headers: {"Content-Type": "application/json; charset=UTF-8"}})
       .then(
         (response) => {console.log(response);})
     }
