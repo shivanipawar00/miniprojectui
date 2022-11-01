@@ -26,7 +26,7 @@ function User() {
               <Card.Body>
                 <Form>
                   <Row>
-                    <Col className="pr-1" md="5">
+                    <Col className="pr-1" md="8">
                       <Form.Group>
                         <label>Company (disabled)</label>
                         <Form.Control

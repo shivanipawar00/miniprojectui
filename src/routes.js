@@ -24,6 +24,10 @@ import Maps from "views/Maps.js";
 import Notifications from "views/Notifications.js";
 import Upgrade from "views/Upgrade.js";
 import BulkUploadUsers from "views/BulkUploadUsers";
+import AddUser from "views/AddUser";
+import RemoveUser from "views/RemoveUser";
+import GrafanaDashboard from "views/GrafanaDashboard";
+import StyledDropzone from "views/BulkUploadUsers";
 
 const dashboardRoutes = [
   {
@@ -84,10 +88,31 @@ const dashboardRoutes = [
     layout: "/admin"
   },
   {
-    path: "/bulkuploadusers",
-    name: "Bulk Upload Users",
+    path: "/adduser",
+    name: "Add User",
     icon: "nc-icon nc-bell-55",
-    component: BulkUploadUsers,
+    component: AddUser,
+    layout: "/admin"
+  },
+  {
+    path: "/removeuser",
+    name: "Remove User",
+    icon: "nc-icon nc-bell-55",
+    component: RemoveUser,
+    layout: "/admin"
+  },
+  {
+    path: "/bulkuploadusers",
+    name: "Add Multiple Users",
+    icon: "nc-icon nc-bell-55",
+    component: StyledDropzone,
+    layout: "/admin"
+  },
+  {
+    path: "/grafanadashboard",
+    name: "Grafana Dashboard",
+    icon: "nc-icon nc-bell-55",
+    component: GrafanaDashboard,
     layout: "/admin"
   }
 ];
