@@ -17,12 +17,14 @@ import {
 import { CardFooter } from "reactstrap";
 function AddUser()
 {
+  const [alertmessage, setalertMessage] = useState("");
   const [data, setData] = useState({
-    "deptCode" : "",
-    "loginId" : "",
-    "name" : "",
-    "isOnboarded" : "",
-    "isActive" : ""
+    "deptId": "",
+    "loginId": "",
+    "name": "",
+    "onboardingDate": "",
+    "isActive": "",
+    "isBusinessAdmin": "",
   });
 
   const handleChange = (event) =>
@@ -34,7 +36,7 @@ function AddUser()
     setData((prevalue) => {
       return {
         ...prevalue,   // Spread Operator               
-        [name]: value
+        [name]: String(value)
       }
     })
     
@@ -50,14 +52,27 @@ function AddUser()
       {method: 'POST',body: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=UTF-8"}}
     )
     .then(
-      (response) => 
-        {console.log(response);}
+      (response) => { response.json().then((data)=> {
+          if(data.status_code == "200")
+          { 
+            setalertMessage(<Alert key="success" variant="success">{data.message}</Alert>);
+            
+          }
+        else
+          {
+            setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>)
+          } })}
     )
 
   }
     return(
         <>
         <Container fluid>
+          <Row>
+         <Col md="12">
+        {alertmessage}
+        </Col> 
+        </Row>
           <Row>
             <Col md="12">
               <Card>
@@ -111,51 +126,78 @@ function AddUser()
                       </Col>
                     </Row> 
                     <Row>
-                      <Col md="12">
                         <Form.Group>
-                          <label>Is the User Onboarded?</label>
-                          <Form.Check 
-                            type='radio'
-                            id={`true-onboarded`}
-                            label={`True`}
-                            name="isOnboarded"
-                            value="true"
-                            onChange={handleChange}
-                          />
-                          <Form.Check 
-                            type='radio'
-                            id={`false-onboarded`}
-                            label={`False`}
-                            name="isOnboarded"
-                            value="false"
-                            onChange={handleChange}
-                          />  
+                          <Row>
+                            <Col md="4">
+                              <label>Employee Onboarding Date</label>
+                            </Col>
+                            <Col md="8">
+                              <Form.Control 
+                                name="onboardingDate"
+                                onChange={handleChange} 
+                                type="date"/>  
+                            </Col>
+                          </Row>
                         </Form.Group>
-                      </Col>
                     </Row>
                     <Row>
                       <Col md="12">
                         <Form.Group>
-                          <label>Is the user Active?</label>
+                          <Row>
+                          <Col>
+                          <label>Active User ?</label>
+                          </Col>
+                          <Col>
                           <Form.Check 
-                            type='radio'
-                            id={`true-active`}
-                            label={`True`}
+                            type='radio' 
+                            label={`Yes`}
                             name="isActive"
                             value="true"
                             onChange={handleChange}
                           />
+                          </Col>
+                          <Col>
                           <Form.Check 
                             type='radio'
-                            id={`false-active`}
-                            label={`False`}
+                            label={`No`}
                             name="isActive"
                             value="false"
                             onChange={handleChange}
-                          />  
+                          /> 
+                          </Col>
+                           </Row>
                         </Form.Group>
                       </Col>
-                    </Row>              
+                    </Row>     
+                    <Row>
+                      <Col md="12">
+                        <Form.Group>
+                          <Row>
+                            <Col>
+                              <label>BUSINESS ADMIN User?</label>
+                            </Col>
+                            <Col>
+                              <Form.Check 
+                                type='radio'                                
+                                label={`Yes`}
+                                name="isBusinessAdmin"
+                                value="true"
+                                onChange={handleChange}
+                              />
+                            </Col>
+                            <Col>
+                              <Form.Check 
+                                type='radio'
+                                label={`No`}
+                                name="isBusinessAdmin"
+                                value="false"
+                                onChange={handleChange}
+                              /> 
+                            </Col> 
+                          </Row>
+                        </Form.Group>
+                      </Col>
+                    </Row>                       
                     <Button
                       className="btn-fill pull-right"
                       type="submit"
@@ -175,9 +217,9 @@ function AddUser()
           <p>DeptID : {data.deptCode}</p>
           <p>Login Id: {data.loginId}</p>
           <p>Name : {data.name}</p>
-          <p>isOnboarded : {data.isOnboarded}</p>
+          <p>onboardingDate: {data.onboardingDate}</p>
           <p>isActive : {data.isActive}</p>
-          
+          <p>isBA : {data.isBusinessAdmin}</p>
         </Row>
       </Container>
         </>

@@ -13,12 +13,13 @@ import {
   Form,
   OverlayTrigger,
   Tooltip,
+  Alert
 } from "react-bootstrap";
 import { CardFooter } from "reactstrap";
 function RemoveUser()
 {
     const [loginId, setloginId] = useState("");
-
+    const [alertmessage, setalertMessage] = useState("");
     function handleChange(event)
     {
       event.preventDefault();
@@ -30,15 +31,56 @@ function RemoveUser()
     {
       event.preventDefault();
       fetch( 
-        "http://127.0.0.1:5000/employees/",
-        {method: 'DELETE',body: JSON.stringify({"loginId" : loginId}), headers: {"Content-Type": "application/json; charset=UTF-8"}})
+        "http://127.0.0.1:5000/get_employee_by_login_id/"+loginId)
       .then(
-        (response) => {console.log(response);})
+        (response) => { 
+          response.json()
+          .then(
+            (data) =>
+            {
+              if(data.status_code=="200")
+              {
+                fetch(
+                  "http://127.0.0.1:5000/employees/"+data.employee_id)
+                .then(
+                  (res) => 
+                  {
+                    res.json()
+                    .then(
+                      (d) => 
+                      {
+                        if(d.status_code="200")
+                        {
+                          setalertMessage(<Alert key="success" variant="success">{d.message}</Alert>)
+                        }
+                        else
+                        {
+                          setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>);
+                        }
+                      }
+                    )
+                  }
+                )
+              }
+              else
+              {
+                setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>);
+              }
+            }
+          )
+        }
+      )
     }
+    
     
     return(
         <>
         <Container fluid>
+        <Row>
+         <Col md="12">
+        {alertmessage}
+        </Col> 
+        </Row>
         <Row>
           <Col md="12">
             <Card>
@@ -64,7 +106,7 @@ function RemoveUser()
                     type="submit"
                     variant="info"
                   >
-                    Add User
+                    Remove User
                   </Button>
                   <div className="clearfix"></div>
                   
