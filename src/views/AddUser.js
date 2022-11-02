@@ -13,6 +13,7 @@ import {
   Form,
   OverlayTrigger,
   Tooltip,
+  Alert
 } from "react-bootstrap";
 import { CardFooter } from "reactstrap";
 function AddUser()
@@ -52,8 +53,8 @@ function AddUser()
       {method: 'POST',body: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=UTF-8"}}
     )
     .then(
-      (response) => { response.json().then((data)=> {
-          if(data.status_code == "200")
+      (response) => { console.log(response); response.json().then((data)=> {console.log(data);
+          if(data["status_code"] == 200)
           { 
             setalertMessage(<Alert key="success" variant="success">{data.message}</Alert>);
             
@@ -88,6 +89,7 @@ function AddUser()
                           <Form.Control
                             type="text"
                             name="loginId"
+                            pattern="[a-z]"
                             onChange={handleChange}
                           ></Form.Control>
                         </Form.Group>

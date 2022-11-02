@@ -38,7 +38,7 @@ function RemoveUser()
           .then(
             (data) =>
             {
-              if(data.status_code=="200")
+              if(data["status_code"] == 200)
               {
                 fetch(
                   "http://127.0.0.1:5000/employees/"+data.employee_id)
@@ -49,7 +49,7 @@ function RemoveUser()
                     .then(
                       (d) => 
                       {
-                        if(d.status_code="200")
+                        if(d.status_code==200)
                         {
                           setalertMessage(<Alert key="success" variant="success">{d.message}</Alert>)
                         }
