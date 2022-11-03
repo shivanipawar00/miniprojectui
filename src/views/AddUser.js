@@ -89,7 +89,6 @@ function AddUser()
                           <Form.Control
                             type="text"
                             name="loginId"
-                            pattern="[a-z]"
                             onChange={handleChange}
                           ></Form.Control>
                         </Form.Group>

@@ -29,6 +29,7 @@ import RemoveUser from "views/RemoveUser";
 import GrafanaDashboard from "views/GrafanaDashboard";
 import StyledDropzone from "views/BulkUploadUsers";
 import LoginComponent from "views/Login";
+import AddDepartment from "views/AddDepartment";
 
 
 const dashboardRoutes = [
@@ -58,6 +59,13 @@ const dashboardRoutes = [
     name: "Add Multiple Users",
     icon: "nc-icon nc-attach-87",
     component: StyledDropzone,
+    layout: "/admin"
+  },
+  {
+    path: "/department",
+    name: "Add Department",
+    icon: "nc-icon nc-attach-87",
+    component: AddDepartment,
     layout: "/admin"
   }
 ];

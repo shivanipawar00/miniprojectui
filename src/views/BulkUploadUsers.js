@@ -77,7 +77,7 @@ function StyledDropzone(props) {
     data.append('file', acceptedFiles[0]);
     data.append('filename', acceptedFiles[0].name);
 
-    fetch('http://127.0.0.1:5000/addmultipleusers/', {
+    fetch('http://94.237.57.185:5000/addmultipleusers/', {
       method: 'POST',
       body: data,
     }).then((response) => {console.log(response);});

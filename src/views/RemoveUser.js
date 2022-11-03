@@ -30,45 +30,24 @@ function RemoveUser()
     function handleSubmit(event)
     {
       event.preventDefault();
+      
       fetch( 
-        "http://127.0.0.1:5000/get_employee_by_login_id/"+loginId)
+        "http://94.237.57.185:5000/employees/",
+        {method: 'DELETE', body: JSON.stringify({"loginId":loginId}), headers: {"Content-Type": "application/json; charset=UTF-8"}})
       .then(
         (response) => { 
-          response.json()
-          .then(
-            (data) =>
-            {
-              if(data["status_code"] == 200)
-              {
-                fetch(
-                  "http://127.0.0.1:5000/employees/"+data.employee_id)
-                .then(
-                  (res) => 
-                  {
-                    res.json()
-                    .then(
-                      (d) => 
-                      {
-                        if(d.status_code==200)
-                        {
-                          setalertMessage(<Alert key="success" variant="success">{d.message}</Alert>)
-                        }
-                        else
-                        {
-                          setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>);
-                        }
-                      }
-                    )
-                  }
-                )
-              }
-              else
-              {
-                setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>);
-              }
-            }
-          )
+          console.log(response); response.json().then((data)=> {console.log(data);
+          if(data["status_code"] == 200)
+          { 
+            setalertMessage(<Alert key="success" variant="success">{data.message}</Alert>);
+            
+          }
+        else
+          {
+            setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>)
+          } })
         }
+
       )
     }
     
@@ -101,6 +80,8 @@ function RemoveUser()
                       </Form.Group>
                     </Col>
                   </Row>
+                  <Row>
+                    <Col md="12">
                   <Button
                     className="btn-fill pull-right"
                     type="submit"
@@ -109,7 +90,8 @@ function RemoveUser()
                     Remove User
                   </Button>
                   <div className="clearfix"></div>
-                  
+                  </Col>
+                  </Row>
                 </Form>
               </Card.Body>
             </Card>

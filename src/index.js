@@ -34,7 +34,9 @@ const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <BrowserRouter>
     <Switch>
-      
+      <Route path="/login" >
+        <LoginComponent />
+    </Route>
       <Route path="/admin" render={(props) => <AdminLayout {...props} />} />
       <Redirect from="/" to="/login" />
     </Switch>
