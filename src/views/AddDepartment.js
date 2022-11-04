@@ -46,7 +46,7 @@ function AddDepartment()
     event.preventDefault();
 
     
-    fetch("http://127.0.0.1:5000/department/",
+    fetch("http://94.237.57.185:5000/department/",
       {method: 'POST',body: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=UTF-8"}}
     )
     .then(
@@ -120,7 +120,7 @@ function AddDepartment()
                       type="submit"
                       variant="info"
                     >
-                      Add User
+                      Add Department
                     </Button>
                     <div className="clearfix"></div>
                   </Form>
@@ -128,16 +128,6 @@ function AddDepartment()
               </Card>
             </Col>
           </Row>
-        <Row>
-          
-          <h1>The Data</h1>
-          <p>DeptID : {data.deptCode}</p>
-          <p>Login Id: {data.loginId}</p>
-          <p>Name : {data.name}</p>
-          <p>onboardingDate: {data.onboardingDate}</p>
-          <p>isActive : {data.isActive}</p>
-          <p>isBA : {data.isBusinessAdmin}</p>
-        </Row>
       </Container>
         </>
     );

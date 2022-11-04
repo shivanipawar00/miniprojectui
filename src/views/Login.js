@@ -21,11 +21,31 @@ function LoginComponent() {
     setloginId(value);
   }
 
-  function handleSubmit(event)
+  async function handleSubmit(event)
   {
     event.preventDefault();
-     localStorage.setItem('loginId',loginId);
-     history.push("/admin/dashboard");
+    localStorage.setItem('loginId',loginId);
+    console.log("login id",loginId)
+    await fetch("http://94.237.57.185:5000/employees/get-department-code/",
+      {method: 'POST',body: JSON.stringify({"loginId":loginId}), headers: {"Content-Type": "application/json; charset=UTF-8"}}
+    )
+    .then(
+      (response) => { console.log(response); response.json().then((data)=> {console.log(data);
+          if(data["status_code"] == 200)
+          { 
+            // setalertMessage(<Alert key="success" variant="success">{data.message}</Alert>);
+            // console.log("GOOTTT", data.deptCode)
+            localStorage.setItem('deptCode',data.deptCode);
+          }
+        else
+          {
+            setalertMessage(<Alert key="danger" variant="danger">{data.message}</Alert>)
+            localStorage.setItem('deptCode',"it");
+          } })}
+    )
+
+    
+    history.push("/admin/dashboard");
   }
   
   return (

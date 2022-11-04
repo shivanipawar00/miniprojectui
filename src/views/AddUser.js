@@ -20,7 +20,7 @@ function AddUser()
 {
   const [alertmessage, setalertMessage] = useState("");
   const [data, setData] = useState({
-    "deptId": "",
+    "deptCode": "",
     "loginId": "",
     "name": "",
     "onboardingDate": "",
@@ -28,12 +28,14 @@ function AddUser()
     "isBusinessAdmin": "",
   });
 
+  const [deptCode,setDeptCode] = useState('');
+
   const handleChange = (event) =>
   {
     event.preventDefault(); // prevent the default action
     let value = event.target.value;
     let name = event.target.name;
-  
+    console.log(name, value)
     setData((prevalue) => {
       return {
         ...prevalue,   // Spread Operator               
@@ -48,8 +50,8 @@ function AddUser()
   {
     event.preventDefault();
 
-    
-    fetch("http://127.0.0.1:5000/employees/",
+    data.deptCode = deptCode
+    fetch("http://94.237.57.185:5000/employees/",
       {method: 'POST',body: JSON.stringify(data), headers: {"Content-Type": "application/json; charset=UTF-8"}}
     )
     .then(
@@ -66,6 +68,7 @@ function AddUser()
     )
 
   }
+  
     return(
         <>
         <Container fluid>
@@ -109,11 +112,14 @@ function AddUser()
                     <Row>
                       <Col md="12">
                           <Form.Group>
-                              DeptID
+                              DeptCode
                               <Form.Control
                               as="select"
                               custom
-                              onChange={handleChange}
+                              onChange={e => {
+                                console.log("e.target.value", e.target.value);
+                                setDeptCode(e.target.value);
+                              }}
                               name="deptCode"
                               >
                                   <option value="it">it</option>
@@ -212,16 +218,6 @@ function AddUser()
               </Card>
             </Col>
           </Row>
-        <Row>
-          
-          <h1>The Data</h1>
-          <p>DeptID : {data.deptCode}</p>
-          <p>Login Id: {data.loginId}</p>
-          <p>Name : {data.name}</p>
-          <p>onboardingDate: {data.onboardingDate}</p>
-          <p>isActive : {data.isActive}</p>
-          <p>isBA : {data.isBusinessAdmin}</p>
-        </Row>
       </Container>
         </>
     );
